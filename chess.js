@@ -1108,15 +1108,14 @@ var Chess = function(fen) {
 
   function time_history() {
     var time_history = [];
-    var hist = history();
 
-    if (timings.length <= 0 || hist.length <= 0) {
+    if (timings.length <= 0 || history.length <= 0) {
       return time_history;
     }
 
-    for (var i = 0; i < hist.length; i++) {
+    for (var i = 0; i < history.length; i++) {
       time_history.push({
-        move: hist[i],
+        move: history[i],
         clock: timings[i]
       });
     }
