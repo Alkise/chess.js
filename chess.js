@@ -1106,14 +1106,38 @@ var Chess = function(fen) {
     return null;
   }
 
-  function time_history() {
+  function move_history(options) {
+    var reversed_history = [];
+      var move_hist = [];
+      var verbose = (typeof options !== 'undefined' && 'verbose' in options &&
+                     options.verbose);
+
+      while (history.length > 0) {
+        reversed_history.push(undo_move());
+      }
+
+      while (reversed_history.length > 0) {
+        var move = reversed_history.pop();
+        if (verbose) {
+          move_hist.push(make_pretty(move));
+        } else {
+          move_hist.push(move_to_san(move));
+        }
+        make_move(move);
+      }
+
+      return move_hist;
+  }
+
+  function time_history(options) {
     var time_history = [];
-    if (timings.length <= 0 || history.length <= 0) {
+    var move_hist = move_history(options)
+    if (timings.length <= 0 || move_hist.length <= 0) {
       return time_history;
     }
-    for (var i = 0; i < history.length; i++) {
+    for (var i = 0; i < move_hist.length; i++) {
       time_history.push({
-        move: history[i],
+        move: move_hist[i],
         clock: timings[i]
       });
     }
@@ -1657,31 +1681,12 @@ var Chess = function(fen) {
       return timings;
     },
 
-    time_history: function() {
-      return time_history();
+    time_history: function(options) {
+      return time_history(options);
     },
 
     history: function(options) {
-      var reversed_history = [];
-      var move_history = [];
-      var verbose = (typeof options !== 'undefined' && 'verbose' in options &&
-                     options.verbose);
-
-      while (history.length > 0) {
-        reversed_history.push(undo_move());
-      }
-
-      while (reversed_history.length > 0) {
-        var move = reversed_history.pop();
-        if (verbose) {
-          move_history.push(make_pretty(move));
-        } else {
-          move_history.push(move_to_san(move));
-        }
-        make_move(move);
-      }
-
-      return move_history;
+      return move_history(options);
     }
 
   };
