@@ -1108,17 +1108,16 @@ var Chess = function(fen) {
 
   function time_history() {
     var time_history = [];
-
     if (timings.length <= 0 || history.length <= 0) {
       return time_history;
     }
-
     for (var i = 0; i < history.length; i++) {
       time_history.push({
         move: history[i],
         clock: timings[i]
       });
     }
+    return time_history;
   }
 
   /*****************************************************************************
