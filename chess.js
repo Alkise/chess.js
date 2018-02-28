@@ -1659,6 +1659,10 @@ var Chess = function(fen) {
       return timings;
     },
 
+    time_history: function() {
+      return time_history();
+    },
+
     history: function(options) {
       var reversed_history = [];
       var move_history = [];
