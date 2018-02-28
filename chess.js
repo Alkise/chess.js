@@ -1106,6 +1106,21 @@ var Chess = function(fen) {
     return null;
   }
 
+  function time_history() {
+    var time_history = [];
+    var hist = history();
+
+    if (timings.length <= 0 || hist.length <= 0) {
+      return time_history;
+    }
+
+    for (var i = 0; i < hist.length; i++) {
+      time_history.push({
+        move: hist[i],
+        clock: timings[i]
+      });
+    }
+  }
 
   /*****************************************************************************
    * UTILITY FUNCTIONS
