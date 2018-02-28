@@ -162,6 +162,7 @@ var Chess = function(fen) {
   var move_number = 1;
   var history = [];
   var header = {};
+  var timings = [];
 
   /* if the user passes in a fen string, load it, else default to
    * starting position
@@ -185,6 +186,7 @@ var Chess = function(fen) {
     half_moves = 0;
     move_number = 1;
     history = [];
+    timings = [];
     if (!keep_headers) header = {};
     update_setup(generate_fen());
   }
@@ -1483,6 +1485,9 @@ var Chess = function(fen) {
       /* delete header to get the moves */
       var ms = pgn.replace(header_string, '').replace(new RegExp(mask(newline_char), 'g'), ' ');
 
+      /* parse timings */
+      timings = ms.match(/(\d{1,2}:)+\d{1,2}/g);
+
       /* delete comments */
       ms = ms.replace(/(\{[^}]+\})+?/g, '');
 
@@ -1633,6 +1638,10 @@ var Chess = function(fen) {
       }
 
       return null;
+    },
+
+    timings: function() {
+      return timings;
     },
 
     history: function(options) {
