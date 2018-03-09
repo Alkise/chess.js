@@ -1108,31 +1108,31 @@ var Chess = function(fen) {
 
   function move_history(options) {
     var reversed_history = [];
-      var move_hist = [];
-      var verbose = (typeof options !== 'undefined' && 'verbose' in options &&
-                     options.verbose);
+    var move_hist = [];
+    var verbose = (typeof options !== 'undefined' && 'verbose' in options &&
+                   options.verbose);
 
-      while (history.length > 0) {
-        reversed_history.push(undo_move());
+    while (history.length > 0) {
+      reversed_history.push(undo_move());
+    }
+
+    while (reversed_history.length > 0) {
+      var move = reversed_history.pop();
+      if (verbose) {
+        move_hist.push(make_pretty(move));
+      } else {
+        move_hist.push(move_to_san(move));
       }
+      make_move(move);
+    }
 
-      while (reversed_history.length > 0) {
-        var move = reversed_history.pop();
-        if (verbose) {
-          move_hist.push(make_pretty(move));
-        } else {
-          move_hist.push(move_to_san(move));
-        }
-        make_move(move);
-      }
-
-      return move_hist;
+    return move_hist;
   }
 
   function time_history(options) {
     var time_history = [];
-    var move_hist = move_history(options)
-    if (timings.length <= 0 || move_hist.length <= 0) {
+    var move_hist = move_history(options);
+    if (!timings || timings.length <= 0 || move_hist.length <= 0) {
       return time_history;
     }
     for (var i = 0; i < move_hist.length; i++) {
