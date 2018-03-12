@@ -163,6 +163,8 @@ var Chess = function(fen) {
   var history = [];
   var header = {};
   var timings = [];
+  var clocks = [];
+  var emts = [];
 
   /* if the user passes in a fen string, load it, else default to
    * starting position
@@ -187,6 +189,8 @@ var Chess = function(fen) {
     move_number = 1;
     history = [];
     timings = [];
+    clocks = [];
+    emts = [];
     if (!keep_headers) header = {};
     update_setup(generate_fen());
   }
@@ -1138,7 +1142,8 @@ var Chess = function(fen) {
     for (var i = 0; i < move_hist.length; i++) {
       time_history.push({
         move: move_hist[i],
-        clock: timings[i]
+        clock: clocks[i],
+        emt: emts[i]
       });
     }
     return time_history;
@@ -1524,6 +1529,8 @@ var Chess = function(fen) {
 
       /* parse timings */
       timings = ms.match(/(\d{1,2}:)+\d{1,2}/g);
+      clocks = timings.filter(function(v,i){return i % 2 === 0});
+      emts = timings.filter(function(v,i){return i % 2 !== 0});
 
       /* delete comments */
       ms = ms.replace(/(\{[^}]+\})+?/g, '');
@@ -1679,6 +1686,14 @@ var Chess = function(fen) {
 
     timings: function() {
       return timings;
+    },
+
+    clocks: function() {
+      return clocks;
+    },
+
+    emts: function() {
+      return emts;
     },
 
     time_history: function(options) {
