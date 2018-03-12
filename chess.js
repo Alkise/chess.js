@@ -1529,8 +1529,10 @@ var Chess = function(fen) {
 
       /* parse timings */
       timings = ms.match(/(\d{1,2}:)+\d{1,2}/g);
-      clocks = timings.filter(function(v,i){return i % 2 === 0});
-      emts = timings.filter(function(v,i){return i % 2 !== 0});
+      if (timings) {
+        clocks = timings.filter(function(v,i){return i % 2 === 0});
+        emts = timings.filter(function(v,i){return i % 2 !== 0});
+      }
 
       /* delete comments */
       ms = ms.replace(/(\{[^}]+\})+?/g, '');
