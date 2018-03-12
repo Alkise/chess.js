@@ -1136,15 +1136,15 @@ var Chess = function(fen) {
   function time_history(options) {
     var time_history = [];
     var move_hist = move_history(options);
-    if (!timings || timings.length <= 0 || move_hist.length <= 0) {
-      return time_history;
-    }
+    move = {};
+    withTimings = !!timings;
     for (var i = 0; i < move_hist.length; i++) {
-      time_history.push({
-        move: move_hist[i],
-        clock: clocks[i],
-        emt: emts[i]
-      });
+      move = {move: move_hist[i]};
+      if (withTimings) {
+        move['clock'] = clocks[i];
+        move['emt'] = emts[i];
+      }
+      time_history.push(move);
     }
     return time_history;
   }
