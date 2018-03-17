@@ -1528,10 +1528,10 @@ var Chess = function(fen) {
       var ms = pgn.replace(header_string, '').replace(new RegExp(mask(newline_char), 'g'), ' ');
 
       /* parse timings */
-      timings = ms.match(/clk\s(\d{1,2}:)+\d{1,2}/g);
+      timings = ms.match(/k\s(\d{1,2}:)+\d{1,2}/g);
       // timings = ms.match(/(\d{1,2}:)+\d{1,2}/g);
       if (timings) {
-        clocks = timings.map(function(v) { return v.match(/(\d{1,2}:)+\d{1,2}/g)[0]; });
+        clocks = timings.map(function(v) { return v.substring(2) });
         // clocks = timings.filter(function(v,i){return i % 2 === 0});
         // emts = timings.filter(function(v,i){return i % 2 !== 0});
       }
