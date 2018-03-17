@@ -164,7 +164,7 @@ var Chess = function(fen) {
   var header = {};
   var timings = [];
   var clocks = [];
-  var emts = [];
+  // var emts = [];
 
   /* if the user passes in a fen string, load it, else default to
    * starting position
@@ -190,7 +190,7 @@ var Chess = function(fen) {
     history = [];
     timings = [];
     clocks = [];
-    emts = [];
+    // emts = [];
     if (!keep_headers) header = {};
     update_setup(generate_fen());
   }
@@ -1142,7 +1142,7 @@ var Chess = function(fen) {
       move = {move: move_hist[i]};
       if (withTimings) {
         move['clock'] = clocks[i];
-        move['emt'] = emts[i];
+        // move['emt'] = emts[i];
       }
       time_history.push(move);
     }
@@ -1528,10 +1528,12 @@ var Chess = function(fen) {
       var ms = pgn.replace(header_string, '').replace(new RegExp(mask(newline_char), 'g'), ' ');
 
       /* parse timings */
-      timings = ms.match(/(\d{1,2}:)+\d{1,2}/g);
+      timings = ms.match(/clk\s(\d{1,2}:)+\d{1,2}/g);
+      // timings = ms.match(/(\d{1,2}:)+\d{1,2}/g);
       if (timings) {
-        clocks = timings.filter(function(v,i){return i % 2 === 0});
-        emts = timings.filter(function(v,i){return i % 2 !== 0});
+        clocks = timings.map(function(v) { return v.match(/(\d{1,2}:)+\d{1,2}/g)[0]; });
+        // clocks = timings.filter(function(v,i){return i % 2 === 0});
+        // emts = timings.filter(function(v,i){return i % 2 !== 0});
       }
 
       /* delete comments */
@@ -1694,9 +1696,9 @@ var Chess = function(fen) {
       return clocks;
     },
 
-    emts: function() {
-      return emts;
-    },
+    // emts: function() {
+    //   return emts;
+    // },
 
     time_history: function(options) {
       return time_history(options);
